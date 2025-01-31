@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparaison des performances</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h1 class="card-title text-center">Comparaison des performances ({{ start_year }} - {{ end_year }})</h1>
+            </div>
+            <div class="card-body">
+                <h2>Graphiques de comparaison</h2>
+                <div class="mb-4">
+                    <h3>Comparaison des victoires</h3>
+                    <img src="{{ url_for('static', filename='comparison_wins_' + start_year|string + '_' + end_year|string + '.png') }}" alt="Comparaison des victoires" class="img-fluid">
+
+                    <h3>Comparaison des buts marqués</h3>
+                    <img src="{{ url_for('static', filename='comparison_goals_' + start_year|string + '_' + end_year|string + '.png') }}" alt="Comparaison des buts marqués" class="img-fluid">
+                </div>
+
+                <h2>Données brutes</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Year</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>OT Losses</th>
+                                <th>Win %</th>
+                                <th>Goals For (GF)</th>
+                                <th>Goals Against (GA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                            <tr>
+                                <td>{{ row['Team Name'] }}</td>
+                                <td>{{ row['Year'] }}</td>
+                                <td>{{ row['Wins'] }}</td>
+                                <td>{{ row['Losses'] }}</td>
+                                <td>{{ row['OT Losses'] }}</td>
+                                <td>{{ row['Win %'] }}</td>
+                                <td>{{ row['Goals For (GF)'] }}</td>
+                                <td>{{ row['Goals Against (GA)'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/" class="btn btn-secondary">Retour à la recherche</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

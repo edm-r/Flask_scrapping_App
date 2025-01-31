@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats pour {{ team_name }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h1 class="card-title text-center">Résultats pour {{ team_name }}</h1>
+            </div>
+            <div class="card-body">
+                <h2>Analyse des données</h2>
+                <div class="mb-4">
+                    <p><strong>Moyenne des victoires :</strong> {{ analysis['mean_wins'] }}</p>
+                    <p><strong>Médiane des buts marqués :</strong> {{ analysis['median_goals_for'] }}</p>
+                    <p><strong>Écart-type des défaites :</strong> {{ analysis['std_losses'] }}</p>
+                    <p><strong>Corrélation entre victoires et buts marqués :</strong> {{ analysis['correlation'] }}</p>
+                </div>
+
+                <h2>Visualisations</h2>
+                <div class="mb-4">
+                    <h3>Évolution des victoires par année</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_wins_evolution.png') }}" alt="Évolution des victoires" class="img-fluid">
+
+                    <h3>Distribution des buts marqués</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_goals_histogram.png') }}" alt="Distribution des buts marqués" class="img-fluid">
+
+                    <h3>Boxplot des victoires par équipe</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_wins_boxplot.png') }}" alt="Boxplot des victoires" class="img-fluid">
+
+                    <h3>Heatmap des performances moyennes par année</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_performance_heatmap.png') }}" alt="Heatmap des performances" class="img-fluid">
+
+                    <h3>Scatter plot : Buts marqués vs Pourcentage de victoires</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_goals_vs_win_percentage.png') }}" alt="Scatter plot" class="img-fluid">
+
+                    <h3>Distribution des performances</h3>
+                    <img src="{{ url_for('static', filename=team_name + '_performance_distribution.png') }}" alt="Distribution des performances" class="img-fluid">
+                </div>
+
+                <h2>Données brutes</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Year</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>OT Losses</th>
+                                <th>Win %</th>
+                                <th>Goals For (GF)</th>
+                                <th>Goals Against (GA)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in data %}
+                            <tr>
+                                <td>{{ row['Team Name'] }}</td>
+                                <td>{{ row['Year'] }}</td>
+                                <td>{{ row['Wins'] }}</td>
+                                <td>{{ row['Losses'] }}</td>
+                                <td>{{ row['OT Losses'] }}</td>
+                                <td>{{ row['Win %'] }}</td>
+                                <td>{{ row['Goals For (GF)'] }}</td>
+                                <td>{{ row['Goals Against (GA)'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="/download/{{ team_name }}_data.csv" class="btn btn-primary">Télécharger les données en CSV</a>
+                    <a href="/" class="btn btn-secondary">Retour à la recherche</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optionnel, pour les fonctionnalités interactives) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
