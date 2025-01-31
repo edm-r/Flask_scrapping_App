@@ -47,6 +47,10 @@ def search():
         flash(f"Une erreur s'est produite : {e}", 'error')
         return redirect('/')
 
+@app.route('/download/<filename>')
+def download(filename):
+    return send_file(filename, as_attachment=True)
+
 @app.route('/compare', methods=['POST'])
 def compare():
     teams = request.form.get('teams', '').strip()
